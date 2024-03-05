@@ -1,0 +1,22 @@
+data(iris)
+set.seed(123)
+train_indices <- sample(1:nrow(iris), 0.8 * nrow(iris))
+train_data <- iris[train_indices, ]
+test_data <- iris[-train_indices, ]
+model <- glm(Species ~ Petal.Length + Petal.Width, data = train_data, family = "binomial")
+predictions <- predict(model, newdata = test_data, type = "response")
+predicted_classes <- ifelse(predictions > 0.5, "virginica", "not_virginica")
+conf_matrix <- table(test_data$Species, predicted_classes)
+print("Confusion Matrix:")
+print(conf_matrix)
+values <- c(90, 50, 70, 80, 70, 60, 20, 30, 80, 90, 20)
+mean_value <- mean(values)
+median_value <- median(values)
+mode_value <- names(sort(table(values), decreasing = TRUE))[1]
+print(paste("Mean:", mean_value))
+print(paste("Median:", median_value))
+print(paste("Mode:", mode_value))
+second_highest <- unique(sort(values, decreasing = TRUE))[2]
+third_lowest <- unique(sort(values))[3]
+print(paste("2nd Highest Value:", second_highest))
+print(paste("3rd Lowest Value:", third_lowest))
